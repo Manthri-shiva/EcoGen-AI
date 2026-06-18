@@ -1,0 +1,7 @@
+# Render deployment configuration
+services:
+  - type: web
+    name: ecogen-ai
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app/main.py"

@@ -1,0 +1,8 @@
+# Add Python dependencies here
+streamlit
+pandas
+scikit-learn
+xgboost
+shap
+faiss-cpu
+python-dotenv
