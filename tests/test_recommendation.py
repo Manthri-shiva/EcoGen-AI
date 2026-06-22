@@ -82,8 +82,6 @@ def test_low_consumption_user():
     assert priorities["LOW"] >= priorities["MEDIUM"]
     assert priorities["LOW"] >= priorities["HIGH"]
 
-    return True
-
 
 def test_medium_consumption_user():
 
@@ -107,8 +105,6 @@ def test_medium_consumption_user():
     assert priorities["MEDIUM"] >= priorities["LOW"]
     assert priorities["MEDIUM"] >= priorities["HIGH"]
 
-    return True
-
 
 def test_high_consumption_user():
 
@@ -131,8 +127,6 @@ def test_high_consumption_user():
 
     assert priorities["HIGH"] >= priorities["MEDIUM"]
     assert priorities["HIGH"] >= priorities["LOW"]
-
-    return True
 
 
 if __name__ == "__main__":

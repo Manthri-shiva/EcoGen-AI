@@ -3,7 +3,9 @@ from __future__ import annotations
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
+
+import pytest
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 
@@ -17,6 +19,18 @@ from ml.explainability.shap_engine import (
     load_dataset,
     load_trained_model,
 )
+
+
+@pytest.fixture
+def model() -> Any:
+    """Load the trained model once for explainability tests."""
+    return load_trained_model()
+
+
+@pytest.fixture
+def dataset() -> Any:
+    """Load the dataset once for explainability tests."""
+    return load_dataset()
 
 
 def test_model_loads() -> Any:
