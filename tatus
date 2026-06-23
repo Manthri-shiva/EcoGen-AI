@@ -1,0 +1,15 @@
+[33ma1536bc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Add EcoGen AI sustainability modules and enhanced RAG assistant
+[33m1c04a8c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/feature-ai-ml-session7[m[33m, [m[1;32mfeature-ai-ml-session7[m[33m)[m Completed Session 8 semantic RAG assistant
+[33m825ecf7[m Completed Session 7 GenAI sustainability advisor
+[33m6ff247f[m Added Session 7 GenAI advisor requirements
+[33mf603063[m[33m ([m[1;31morigin/feature-ai-ml-session5[m[33m, [m[1;32mfeature-ai-ml-session5[m[33m)[m Completed Session 6 location intelligence engine
+[33m00e5477[m Added Session 6 location intelligence requirements
+[33ma6cc35c[m Completed Session 5 explainability engine
+[33mee11eb8[m Added Session 5 explainability requirements
+[33mfb31d92[m Merge pull request #2 from Manthri-shiva/feature-ai-ml-session4
+[33mf8a916e[m Merge pull request #1 from Manthri-shiva/feature-ai-ml-session3
+[33m00bf54f[m[33m ([m[1;31morigin/feature-ai-ml-session4[m[33m, [m[1;32mfeature-ai-ml-session4[m[33m)[m Completed Session 4 recommendation engine
+[33m49f906e[m[33m ([m[1;31morigin/feature-ai-ml-session3[m[33m, [m[1;32mfeature-ai-ml-session3[m[33m)[m Added Session 4 recommendation engine requirements
+[33m2604b23[m Completed Session 3 prediction engine and warning fix
+[33m9fc84cb[m Added Session 2 architecture requirements
+[33m5feca20[m Completed Session 1 AI/ML foundation

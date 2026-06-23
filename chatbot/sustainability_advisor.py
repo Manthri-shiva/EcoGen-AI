@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import json
 import os
+from dotenv import load_dotenv
+load_dotenv()
 from typing import Any, Dict, List
 from urllib import error, request
 
@@ -193,5 +195,84 @@ def generate_advice_report(inputs: Dict[str, Any]) -> Dict[str, Any]:
     Build the final advisory report by combining prompt creation and formatting.
     """
     prompt = build_sustainability_prompt(inputs)
-    raw_response = get_gemini_response(prompt)
+
+    # Local fallback report used when Gemini is temporarily unavailable or
+    # when quota/rate-limit errors occur.
+    def _fallback_report() -> Dict[str, Any]:
+        return {
+            "summary": "AI service temporarily unavailable. Using local sustainability advisor.",
+            "expected_environmental_impact": (
+                "Moderate reduction in emissions through energy, water, transport, and waste improvements."
+            ),
+            "estimated_cost_savings": "$20-$50 per month",
+            "recommendations": [
+                {
+                    "rank": 1,
+                    "category": "Energy",
+                    "recommendation": "Reduce electricity consumption and switch to LED lighting.",
+                    "priority": "High",
+                    "expected_impact": "Lower household emissions",
+                    "estimated_cost_savings": "$10",
+                },
+                {
+                    "rank": 2,
+                    "category": "Transport",
+                    "recommendation": "Use public transport or carpooling.",
+                    "priority": "High",
+                    "expected_impact": "Reduced transport-related emissions",
+                    "estimated_cost_savings": "$8",
+                },
+                {
+                    "rank": 3,
+                    "category": "Water",
+                    "recommendation": "Reduce water consumption and fix leaks.",
+                    "priority": "Medium",
+                    "expected_impact": "Improved water efficiency and lower energy for water heating",
+                    "estimated_cost_savings": "$5",
+                },
+                {
+                    "rank": 4,
+                    "category": "Waste",
+                    "recommendation": "Segregate waste and increase recycling.",
+                    "priority": "Medium",
+                    "expected_impact": "Lower landfill waste and emissions from waste processing",
+                    "estimated_cost_savings": "$4",
+                },
+                {
+                    "rank": 5,
+                    "category": "Lifestyle",
+                    "recommendation": "Track sustainability habits weekly.",
+                    "priority": "Low",
+                    "expected_impact": "Gradual behavioral improvements leading to sustained reductions",
+                    "estimated_cost_savings": "$3",
+                },
+            ],
+        }
+
+    try:
+        raw_response = get_gemini_response(prompt)
+    except Exception as exc:
+        # Activate fallback only for API availability / quota / rate-limit issues.
+        msg = str(exc).lower()
+        is_quota_or_unavailable = (
+            "429" in msg
+            or "quota" in msg
+            or "rate limit" in msg
+            or "exceeded" in msg
+            or "unavail" in msg
+            or "unavailable" in msg
+        )
+
+        # Also check for HTTPError with 429 status if original exception was propagated.
+        http429 = False
+        try:
+            http429 = isinstance(exc, error.HTTPError) and getattr(exc, "code", None) == 429
+        except Exception:
+            http429 = False
+
+        if is_quota_or_unavailable or http429:
+            return _fallback_report()
+        # For other errors, re-raise to preserve existing behavior.
+        raise
+
     return format_recommendations(raw_response)

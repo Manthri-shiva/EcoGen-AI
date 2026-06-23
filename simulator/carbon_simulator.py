@@ -90,6 +90,44 @@ def calculate_reduction(current_total: float, improved_total: float) -> Dict[str
     }
 
 
+def calculate_sustainability_score(carbon_footprint: float) -> int:
+    """
+    Convert a monthly carbon footprint (kg CO2) into a sustainability score (0-100).
+
+    Rules (piecewise linear):
+    - carbon <= 150 kg -> score in [70,100] (lower footprint -> closer to 100)
+    - 150 < carbon <= 250 kg -> score in (30,70] (linear between these points)
+    - carbon > 250 kg -> score below 30, decreasing with footprint
+
+    Returns an integer in range 0..100.
+    """
+    if carbon_footprint is None:
+        return 0
+
+    try:
+        total = float(carbon_footprint)
+    except Exception:
+        return 0
+
+    # Clamp negative values
+    if total <= 0:
+        return 100
+
+    if total <= 150:
+        # Map 0 -> 100, 150 -> 70
+        score = 70 + (150.0 - total) * (30.0 / 150.0)
+    elif total <= 250:
+        # Map 150 -> 70, 250 -> 30
+        score = 70.0 - (total - 150.0) * (40.0 / 100.0)
+    else:
+        # For values above 250, decrease below 30. Every 10kg reduces score by 1 point.
+        score = 30.0 - (total - 250.0) / 10.0
+
+    # Clamp to 0..100 and return integer
+    score = max(0.0, min(100.0, score))
+    return int(round(score))
+
+
 def calculate_cost_savings(
     current_inputs: Dict[str, float],
     improved_inputs: Dict[str, float],
