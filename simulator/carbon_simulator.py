@@ -128,6 +128,52 @@ def calculate_sustainability_score(carbon_footprint: float) -> int:
     return int(round(score))
 
 
+def simulate_future_impact(
+    current_footprint: float,
+    sustainability_score: float,
+    months: int,
+) -> Dict[str, float]:
+    """
+    Forecast future carbon and sustainability metrics for a given horizon.
+
+    The function uses the current carbon footprint and the current sustainability
+    score to choose a deterministic trend:
+    - If sustainable habits are followed, the footprint improves by 2% per month.
+    - If no action is taken, the footprint increases by 1% per month.
+
+    Args:
+        current_footprint: Current monthly carbon footprint in kg CO2.
+        sustainability_score: Current sustainability score on a 0-100 scale.
+        months: Forecast horizon in months (e.g. 3, 6, 12).
+
+    Returns:
+        A dictionary containing the forecast horizon, projected footprint,
+        projected sustainability score, reduction potential, and estimated savings.
+    """
+    if current_footprint < 0:
+        raise ValueError("current_footprint must be non-negative.")
+    if months < 0:
+        raise ValueError("months must be non-negative.")
+
+    # Determine deterministic behavior based on existing sustainability score.
+    sustainable_habits = sustainability_score >= 50.0
+    monthly_change = 0.98 if sustainable_habits else 1.01
+
+    projected_footprint = round(current_footprint * (monthly_change ** months), 2)
+    projected_score = calculate_sustainability_score(projected_footprint)
+
+    reduction_potential = max(0.0, round(current_footprint - projected_footprint, 2))
+    estimated_savings = round(reduction_potential * 0.08, 2)
+
+    return {
+        "months": months,
+        "projected_footprint": projected_footprint,
+        "projected_score": projected_score,
+        "reduction_potential": reduction_potential,
+        "estimated_savings": estimated_savings,
+    }
+
+
 def calculate_cost_savings(
     current_inputs: Dict[str, float],
     improved_inputs: Dict[str, float],
