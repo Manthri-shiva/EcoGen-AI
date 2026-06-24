@@ -28,8 +28,6 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-from ml.mission_engine import generate_missions
-from ml.achievement_engine import get_achievements
 from ml.digital_twin import create_digital_twin_profile
 from ml.roadmap_generator import generate_roadmap
 from ml.impact_engine import calculate_impact
@@ -451,38 +449,6 @@ if submitted:
             current_state["sustainability_score"],
             current_state["carbon_footprint"],
         )
-        missions = generate_missions(
-            sustainability_score=current_state["sustainability_score"],
-            electricity=float(
-                current_state["user_profile"].get(
-                    "monthly_electricity_usage",
-                    300,
-                )
-            ),
-            water=float(
-                current_state["user_profile"].get(
-                    "monthly_water_consumption",
-                    5000,
-                )
-            ),
-            travel=float(
-                current_state["user_profile"].get(
-                    "daily_travel_distance",
-                    20,
-                )
-            ),
-            waste=float(
-                current_state["user_profile"].get(
-                    "monthly_waste_generated",
-                    10,
-                )
-            ),
-        )
-
-        achievements = get_achievements(
-            sustainability_score=current_state["sustainability_score"],
-            completed_missions=len(missions),
-        )
         optimized_recommendations = get_optimized_recommendations(
             electricity=float(
                 current_state["user_profile"].get(
@@ -594,30 +560,6 @@ Week {item['week']}
 
 Goal:
 {item['goal']}
-"""
-    )
-        st.subheader("🎯 Sustainability Missions")
-
-        for mission in missions:
-
-         st.info(
-        f"""
-{mission['title']}
-
-{mission['description']}
-
-Reward Points: {mission['points']}
-"""
-    )
-        st.subheader("🏆 Achievements")
-
-        for badge in achievements:
-
-         st.success(
-        f"""
-{badge['badge']}
-
-{badge['description']}
 """
     )
         st.subheader("🌱 Recommended Actions")
