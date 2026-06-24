@@ -29,6 +29,9 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from ml.digital_twin import create_digital_twin_profile
+from ml.roadmap_generator import generate_roadmap
+from ml.impact_engine import calculate_impact
+from ml.sustainability_journey import get_journey_stage
 
 from ml.scenario_engine import simulate_scenario
 from ml.recommendation_optimizer import (
@@ -404,6 +407,7 @@ if submitted:
         twin_report = None
 
     
+
     if twin_report:
 
         current_state = twin_report["current_state"]
@@ -437,7 +441,14 @@ if submitted:
                 )
             ),
         )
+        journey_stage = get_journey_stage(
+            current_state["sustainability_score"]
+        )
 
+        roadmap = generate_roadmap(
+            current_state["sustainability_score"],
+            current_state["carbon_footprint"],
+        )
         optimized_recommendations = get_optimized_recommendations(
             electricity=float(
                 current_state["user_profile"].get(
@@ -523,7 +534,11 @@ if submitted:
         st.success(
             f"Your EcoDNA Type: {ecodna_type}"
         )
+        st.subheader("🏆 Sustainability Journey")
 
+        st.success(
+            f"Current Journey Stage: {journey_stage}"
+)
         st.subheader("📈 Forecast Visualizations")
 
         st.plotly_chart(
@@ -535,7 +550,18 @@ if submitted:
 
         for insight in location_insights:
             st.info(insight)
+        st.subheader("📅 30-Day Sustainability Roadmap")
 
+        for item in roadmap:
+
+         st.info(
+        f"""
+Week {item['week']}
+
+Goal:
+{item['goal']}
+"""
+    )
         st.subheader("🌱 Recommended Actions")
 
         for recommendation in recommendations:
@@ -590,9 +616,104 @@ if submitted:
         st.info(
             "Scenario simulator temporarily disabled while EcoTwin upgrade is being integrated."
         )
+        electricity_reduction = st.slider(
+           "Electricity Reduction %",
+            0,
+            100,
+            20,
+)
 
-    else:
+        travel_reduction = st.slider(
+             "Travel Reduction %",
+                0,
+                100,
+                20,
+)
 
-        st.info(
+        water_reduction = st.slider(
+         "Water Reduction %",
+            0,
+             100,
+              10,
+)
+
+        waste_reduction = st.slider(
+    "Waste Reduction %",
+    0,
+    100,
+    10,
+)
+
+    if st.button("Run Scenario Analysis"):
+
+        impact = calculate_impact(
+            current_state["carbon_footprint"],
+            electricity_reduction,
+            travel_reduction,
+            water_reduction,
+            waste_reduction,
+        )
+
+        col1, col2, col3 = st.columns(3)
+
+        col1.metric(
+            "Current",
+            f"{impact['current']} kg"
+        )
+
+        col2.metric(
+            "Future",
+            f"{impact['future']} kg"
+        )
+
+        col3.metric(
+            "Saved",
+            f"{impact['saved']} kg"
+        )
+    st.subheader("🌎 Future Self Projection")
+
+    projection_years = st.selectbox(
+        "Projection Horizon",
+        [1, 3, 5]
+    )
+
+    future_score = min(
+        100,
+        current_state["sustainability_score"]
+        + projection_years * 4
+    )
+
+    future_footprint = max(
+        0,
+        current_state["carbon_footprint"]
+        - projection_years * 30
+    )
+
+    money_saved = projection_years * 600
+
+    trees_equivalent = projection_years * 25
+
+    st.metric(
+        "Projected Sustainability Score",
+        future_score,
+    )
+
+    st.metric(
+        "Projected Carbon Footprint",
+        f"{future_footprint} kg",
+    )
+
+    st.metric(
+        "Estimated Savings",
+        f"${money_saved}",
+    )
+
+    st.metric(
+        "Trees Equivalent",
+        trees_equivalent,
+    )
+else:
+
+    st.info(
             "Provide your city, sustainability score, and current carbon footprint, then generate the EcoTwin report."
         )
