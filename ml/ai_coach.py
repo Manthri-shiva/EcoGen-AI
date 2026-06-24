@@ -1,17 +1,55 @@
-{
-    "strengths":[
-        "Good sustainability score",
-        "Low travel emissions"
-    ],
+"""
+EcoGen AI Coach
+"""
 
-    "weaknesses":[
-        "High electricity usage",
-        "High waste generation"
-    ],
 
-    "next_best_action":
-        "Switch to LED lighting",
+def generate_ai_coach_report(
+    sustainability_score,
+    ecodna_type,
+    carbon_footprint,
+):
 
-    "estimated_improvement":
-        "+6 sustainability points"
-}
+    strengths = []
+    weaknesses = []
+
+    if sustainability_score >= 70:
+        strengths.append(
+            "Strong sustainability habits"
+        )
+    else:
+        weaknesses.append(
+            "Sustainability score needs improvement"
+        )
+
+    if carbon_footprint > 400:
+        weaknesses.append(
+            "High carbon footprint"
+        )
+    else:
+        strengths.append(
+            "Controlled carbon footprint"
+        )
+
+    recommendations = {
+
+        "Energy Saver": "Switch to LED lighting and smart appliances",
+
+        "Water Guardian": "Reduce water consumption by 15%",
+
+        "Eco Traveler": "Use public transport more frequently",
+
+        "Waste Warrior": "Improve recycling and waste segregation",
+
+    }
+
+    best_action = recommendations.get(
+        ecodna_type,
+        "Continue current sustainability practices",
+    )
+
+    return {
+        "strengths": strengths,
+        "weaknesses": weaknesses,
+        "best_action": best_action,
+        "estimated_improvement": "+5 Sustainability Points",
+    }

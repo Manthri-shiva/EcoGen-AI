@@ -29,14 +29,20 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from ml.progress_tracker import generate_progress_history
+
 from ml.mission_engine import generate_missions
+
 from ml.achievement_engine import get_achievements
+
 from ml.digital_twin import create_digital_twin_profile
+
 from ml.roadmap_generator import generate_roadmap
 from ml.impact_engine import calculate_impact
 from ml.sustainability_journey import get_journey_stage
-
+from ml.ai_coach import generate_ai_coach_report
 from ml.scenario_engine import simulate_scenario
+from ml.report_generator import generate_report_data
+from utils.pdf_generator import generate_pdf_report
 from ml.recommendation_optimizer import (
     get_optimized_recommendations,
 )
@@ -433,6 +439,10 @@ if twin_report:
     progress_history = generate_progress_history(
         current_state["carbon_footprint"]
     )
+#    ai_coach_report = generate_ai_coach_report(
+ #       ecodna_type=ecodna_type,
+  #       carbon_footprint=current_state["carbon_footprint"],
+#)   
 
     ecodna_type = get_ecodna_type(
         electricity=float(
@@ -460,6 +470,19 @@ if twin_report:
                 )
             ),
         )
+    ai_coach_report = generate_ai_coach_report(
+    sustainability_score=current_state["sustainability_score"],
+    ecodna_type=ecodna_type,
+    carbon_footprint=current_state["carbon_footprint"],
+)
+    report_data = generate_report_data(
+      ecodna_type=ecodna_type,
+      sustainability_score=current_state["sustainability_score"],
+      carbon_footprint=current_state["carbon_footprint"],
+      roadmap=roadmap,
+      missions=missions,
+      achievements=achievements,
+)
     journey_stage = get_journey_stage(
             current_state["sustainability_score"]
         )
@@ -655,7 +678,26 @@ Reward Points: {mission['points']}
             progress_chart,
             use_container_width=True,
         )
+    st.subheader("🤖 AI Sustainability Coach")
 
+    st.success("Strengths")
+
+    for item in ai_coach_report["strengths"]:
+        st.write(f"✅ {item}")
+
+    st.warning("Improvement Areas")
+
+    for item in ai_coach_report["weaknesses"]:
+        st.write(f"⚠️ {item}")
+
+    st.info(
+        f"Best Action: {ai_coach_report['best_action']}"
+    )
+
+    st.metric(
+        "Estimated Improvement",
+        ai_coach_report["estimated_improvement"],
+    )
     st.subheader("🌱 Recommended Actions")
 
     for recommendation in recommendations:
@@ -799,11 +841,23 @@ Carbon Saving: {rec['carbon_saving']} kg/month
             "Estimated Savings",
             f"${money_saved}",
         )
+    st.subheader("📄 Sustainability Report")
 
+if  st.button("Generate PDF Report"):
+
+    pdf_path = generate_pdf_report(
+        "EcoGen_Report.pdf",
+        report_data,
+    )
+
+    st.success(
+        f"Report generated: {pdf_path}"
+    )
     st.metric(
             "Trees Equivalent",
             trees_equivalent,
         )
+
 else:
     st.info(
         "Provide your city, sustainability score, and current carbon footprint, then generate the EcoTwin report."
