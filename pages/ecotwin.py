@@ -28,6 +28,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+from ml.progress_tracker import generate_progress_history
 from ml.mission_engine import generate_missions
 from ml.achievement_engine import get_achievements
 from ml.digital_twin import create_digital_twin_profile
@@ -386,7 +387,7 @@ with st.form("ecotwin_form"):
         st.markdown("</div>", unsafe_allow_html=True)
 
     submitted = st.form_submit_button("Generate EcoTwin Report")
-
+    twin_report = None
 if submitted:
     user_profile = {
         "age": age,
@@ -409,21 +410,37 @@ if submitted:
         twin_report = None
 
     
+if twin_report:
 
-    if twin_report:
+    current_state = twin_report["current_state"]
+    predictions = twin_report["future_predictions"]
+    recommendations = twin_report["recommendations"]
+    location_insights = twin_report["location_insights"]
 
-        current_state = twin_report["current_state"]
-        predictions = twin_report["future_predictions"]
-        recommendations = twin_report["recommendations"]
-        location_insights = twin_report["location_insights"]
+    missions = generate_missions(
+        sustainability_score=current_state["sustainability_score"],
+        electricity=300,
+        water=5000,
+        travel=20,
+        waste=10,
+    )
 
-        ecodna_type = get_ecodna_type(
-            electricity=float(
-                current_state["user_profile"].get(
-                    "monthly_electricity_usage",
-                    0,
-                )
-            ),
+    achievements = get_achievements(
+        sustainability_score=current_state["sustainability_score"],
+        completed_missions=len(missions),
+    )
+
+    progress_history = generate_progress_history(
+        current_state["carbon_footprint"]
+    )
+
+    ecodna_type = get_ecodna_type(
+        electricity=float(
+            current_state["user_profile"].get(
+                "monthly_electricity_usage",
+                0,
+            )
+        ),
             water=float(
                 current_state["user_profile"].get(
                     "monthly_water_consumption",
@@ -443,15 +460,15 @@ if submitted:
                 )
             ),
         )
-        journey_stage = get_journey_stage(
+    journey_stage = get_journey_stage(
             current_state["sustainability_score"]
         )
 
-        roadmap = generate_roadmap(
+    roadmap = generate_roadmap(
             current_state["sustainability_score"],
             current_state["carbon_footprint"],
         )
-        missions = generate_missions(
+    missions = generate_missions(
             sustainability_score=current_state["sustainability_score"],
             electricity=float(
                 current_state["user_profile"].get(
@@ -479,11 +496,11 @@ if submitted:
             ),
         )
 
-        achievements = get_achievements(
+    achievements = get_achievements(
             sustainability_score=current_state["sustainability_score"],
             completed_missions=len(missions),
         )
-        optimized_recommendations = get_optimized_recommendations(
+    optimized_recommendations = get_optimized_recommendations(
             electricity=float(
                 current_state["user_profile"].get(
                     "monthly_electricity_usage",
@@ -510,7 +527,7 @@ if submitted:
             ),
         )
 
-        forecast_data = [
+    forecast_data = [
             {
                 "month": 0,
                 "footprint": current_state["carbon_footprint"],
@@ -529,9 +546,9 @@ if submitted:
             },
         ]
 
-        forecast_df = pd.DataFrame(forecast_data)
+    forecast_df = pd.DataFrame(forecast_data)
 
-        forecast_chart = px.line(
+    forecast_chart = px.line(
             forecast_df,
             x="month",
             y="footprint",
@@ -539,54 +556,54 @@ if submitted:
             title="Future Forecast",
         )
 
-        st.subheader("📊 Premium Dashboard")
+    st.subheader("📊 Premium Dashboard")
 
-        col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4 = st.columns(4)
 
-        col1.metric(
+    col1.metric(
             "Current Footprint",
             f"{current_state['carbon_footprint']:.1f} kg",
         )
 
-        col2.metric(
+    col2.metric(
             "3 Month Forecast",
             f"{predictions['3_months']['projected_footprint']:.1f} kg",
         )
 
-        col3.metric(
+    col3.metric(
             "6 Month Forecast",
             f"{predictions['6_months']['projected_footprint']:.1f} kg",
         )
 
-        col4.metric(
+    col4.metric(
             "12 Month Forecast",
             f"{predictions['12_months']['projected_footprint']:.1f} kg",
         )
 
-        st.subheader("🧬 EcoDNA Profile")
+    st.subheader("🧬 EcoDNA Profile")
 
-        st.success(
+    st.success(
             f"Your EcoDNA Type: {ecodna_type}"
         )
-        st.subheader("🏆 Sustainability Journey")
+    st.subheader("🏆 Sustainability Journey")
 
-        st.success(
+    st.success(
             f"Current Journey Stage: {journey_stage}"
 )
-        st.subheader("📈 Forecast Visualizations")
+    st.subheader("📈 Forecast Visualizations")
 
-        st.plotly_chart(
+    st.plotly_chart(
             forecast_chart,
             use_container_width=True,
         )
 
-        st.subheader("📍 Location Insights")
+    st.subheader("📍 Location Insights")
 
-        for insight in location_insights:
+    for insight in location_insights:
             st.info(insight)
-        st.subheader("📅 30-Day Sustainability Roadmap")
+    st.subheader("📅 30-Day Sustainability Roadmap")
 
-        for item in roadmap:
+    for item in roadmap:
 
          st.info(
         f"""
@@ -596,9 +613,9 @@ Goal:
 {item['goal']}
 """
     )
-        st.subheader("🎯 Sustainability Missions")
+    st.subheader("🎯 Sustainability Missions")
 
-        for mission in missions:
+    for mission in missions:
 
          st.info(
         f"""
@@ -609,9 +626,9 @@ Goal:
 Reward Points: {mission['points']}
 """
     )
-        st.subheader("🏆 Achievements")
+    st.subheader("🏆 Achievements")
 
-        for badge in achievements:
+    for badge in achievements:
 
          st.success(
         f"""
@@ -620,158 +637,174 @@ Reward Points: {mission['points']}
 {badge['description']}
 """
     )
-        st.subheader("🌱 Recommended Actions")
+    st.subheader("📈 Sustainability Progress")
 
-        for recommendation in recommendations:
+    progress_df = pd.DataFrame(
+            progress_history
+        )
+
+    progress_chart = px.line(
+            progress_df,
+            x="week",
+            y="footprint",
+            markers=True,
+            title="Carbon Footprint Progress",
+        )
+
+    st.plotly_chart(
+            progress_chart,
+            use_container_width=True,
+        )
+
+    st.subheader("🌱 Recommended Actions")
+
+    for recommendation in recommendations:
             st.success(recommendation)
 
-        st.subheader("🤖 AI Priority Recommendations")
+    st.subheader("🤖 AI Priority Recommendations")
 
-        for rec in optimized_recommendations:
+    for rec in optimized_recommendations:
 
             st.info(
                 f"""
-    {rec['title']}
+Title: {rec['title']}
 
-    Priority Score: {rec['priority_score']}
+Priority Score: {rec['priority_score']}
 
-    Carbon Saving: {rec['carbon_saving']} kg/month
-    """
+Carbon Saving: {rec['carbon_saving']} kg/month
+"""
             )
 
-        total_savings = sum(
+    total_savings = sum(
             rec["carbon_saving"]
             for rec in optimized_recommendations
         )
 
-        projected_footprint = max(
+    projected_footprint = max(
             current_state["carbon_footprint"]
             - total_savings,
             0,
         )
 
-        st.subheader("📈 Impact Forecast")
+    st.subheader("📈 Impact Forecast")
 
-        col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-        col1.metric(
+    col1.metric(
             "Current Carbon",
             f"{current_state['carbon_footprint']:.1f} kg",
         )
 
-        col2.metric(
+    col2.metric(
             "Projected Carbon",
             f"{projected_footprint:.1f} kg",
         )
 
-        col3.metric(
+    col3.metric(
             "Potential Savings",
             f"{total_savings:.1f} kg",
         )
 
-        st.subheader("🔮 What-If Scenario Simulator")
+    st.subheader("🔮 What-If Scenario Simulator")
 
-        st.info(
-            "Scenario simulator temporarily disabled while EcoTwin upgrade is being integrated."
-        )
-        electricity_reduction = st.slider(
-           "Electricity Reduction %",
+    electricity_reduction = st.slider(
+            "Electricity Reduction %",
             0,
             100,
             20,
-)
+        )
 
-        travel_reduction = st.slider(
-             "Travel Reduction %",
-                0,
-                100,
-                20,
-)
-
-        water_reduction = st.slider(
-         "Water Reduction %",
+    travel_reduction = st.slider(
+            "Travel Reduction %",
             0,
-             100,
-              10,
-)
+            100,
+            20,
+        )
 
-        waste_reduction = st.slider(
-    "Waste Reduction %",
-    0,
-    100,
-    10,
-)
+    water_reduction = st.slider(
+            "Water Reduction %",
+            0,
+            100,
+            10,
+        )
+
+    waste_reduction = st.slider(
+            "Waste Reduction %",
+            0,
+            100,
+            10,
+        )
 
     if st.button("Run Scenario Analysis"):
 
-        impact = calculate_impact(
-            current_state["carbon_footprint"],
-            electricity_reduction,
-            travel_reduction,
-            water_reduction,
-            waste_reduction,
-        )
+            impact = calculate_impact(
+                current_state["carbon_footprint"],
+                electricity_reduction,
+                travel_reduction,
+                water_reduction,
+                waste_reduction,
+            )
 
-        col1, col2, col3 = st.columns(3)
+            col1, col2, col3 = st.columns(3)
 
-        col1.metric(
-            "Current",
-            f"{impact['current']} kg"
-        )
+            col1.metric(
+                "Current",
+                f"{impact['current']} kg",
+            )
 
-        col2.metric(
-            "Future",
-            f"{impact['future']} kg"
-        )
+            col2.metric(
+                "Future",
+                f"{impact['future']} kg",
+            )
 
-        col3.metric(
-            "Saved",
-            f"{impact['saved']} kg"
-        )
+            col3.metric(
+                "Saved",
+                f"{impact['saved']} kg",
+            )
+
     st.subheader("🌎 Future Self Projection")
 
     projection_years = st.selectbox(
-        "Projection Horizon",
-        [1, 3, 5]
-    )
+            "Projection Horizon",
+            [1, 3, 5],
+        )
 
     future_score = min(
-        100,
-        current_state["sustainability_score"]
-        + projection_years * 4
-    )
+            100,
+            current_state["sustainability_score"]
+            + projection_years * 4,
+        )
 
     future_footprint = max(
-        0,
-        current_state["carbon_footprint"]
-        - projection_years * 30
-    )
+            0,
+            current_state["carbon_footprint"]
+            - projection_years * 30,
+        )
 
     money_saved = projection_years * 600
 
     trees_equivalent = projection_years * 25
 
     st.metric(
-        "Projected Sustainability Score",
-        future_score,
-    )
-
-    st.metric(
-        "Projected Carbon Footprint",
-        f"{future_footprint} kg",
-    )
-
-    st.metric(
-        "Estimated Savings",
-        f"${money_saved}",
-    )
-
-    st.metric(
-        "Trees Equivalent",
-        trees_equivalent,
-    )
-else:
-
-    st.info(
-            "Provide your city, sustainability score, and current carbon footprint, then generate the EcoTwin report."
+            "Projected Sustainability Score",
+            future_score,
         )
+
+    st.metric(
+            "Projected Carbon Footprint",
+            f"{future_footprint} kg",
+        )
+
+    st.metric(
+            "Estimated Savings",
+            f"${money_saved}",
+        )
+
+    st.metric(
+            "Trees Equivalent",
+            trees_equivalent,
+        )
+else:
+    st.info(
+        "Provide your city, sustainability score, and current carbon footprint, then generate the EcoTwin report."
+    )
