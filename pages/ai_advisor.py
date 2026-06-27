@@ -1,5 +1,5 @@
 import streamlit as st
-
+from utils.theme import apply_theme
 from chatbot.sustainability_advisor import generate_advice_report
 from ml.location.location_engine import (
     generate_location_report,
@@ -13,7 +13,7 @@ st.set_page_config(
     page_icon="🌿",
     layout="wide",
 )
-
+apply_theme()
 
 st.markdown(
     """

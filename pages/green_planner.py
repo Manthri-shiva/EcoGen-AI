@@ -2,7 +2,7 @@ import json
 
 import plotly.graph_objects as go
 import streamlit as st
-
+from utils.theme import apply_theme
 from planner.action_planner import (
     calculate_progress,
     estimate_impact,
@@ -16,7 +16,7 @@ st.set_page_config(
     page_icon="🌿",
     layout="wide",
 )
-
+apply_theme()
 
 st.markdown(
     """

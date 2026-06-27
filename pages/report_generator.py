@@ -3,6 +3,7 @@ import io
 
 import pandas as pd
 import streamlit as st
+from utils.theme import apply_theme
 
 from reports.report_generator import (
     create_summary_data,
@@ -16,7 +17,7 @@ st.set_page_config(
     page_icon="📄",
     layout="wide",
 )
-
+apply_theme()
 st.markdown(
     """
     <style>

@@ -8,7 +8,8 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.append(str(ROOT_DIR))
 
 import streamlit as st
-
+import streamlit as st
+from utils.theme import apply_theme
 
 st.set_page_config(
     page_title="EcoTwin AI",
@@ -16,7 +17,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed",
 )
-
+apply_theme()
 # TEMPORARILY COMMENT THESE
 # from utils.theme import apply_theme
 # from utils.ui_components import (
@@ -418,167 +419,163 @@ if submitted:
     
 if twin_report:
 
+    # ==========================================================
+    # Core EcoTwin Data
+    # ==========================================================
     current_state = twin_report["current_state"]
     predictions = twin_report["future_predictions"]
     recommendations = twin_report["recommendations"]
     location_insights = twin_report["location_insights"]
 
-    missions = generate_missions(
-        sustainability_score=current_state["sustainability_score"],
-        electricity=300,
-        water=5000,
-        travel=20,
-        waste=10,
+    # ==========================================================
+    # User Profile Values
+    # ==========================================================
+    electricity = float(
+        current_state["user_profile"].get(
+            "monthly_electricity_usage",
+            300,
+        )
     )
 
+    water = float(
+        current_state["user_profile"].get(
+            "monthly_water_consumption",
+            5000,
+        )
+    )
+
+    travel = float(
+        current_state["user_profile"].get(
+            "daily_travel_distance",
+            20,
+        )
+    )
+
+    waste = float(
+        current_state["user_profile"].get(
+            "monthly_waste_generated",
+            10,
+        )
+    )
+
+    sustainability_score = current_state["sustainability_score"]
+    carbon_footprint = current_state["carbon_footprint"]
+
+    # ==========================================================
+    # Journey
+    # ==========================================================
+    journey_stage = get_journey_stage(
+        sustainability_score
+    )
+
+    # ==========================================================
+    # EcoDNA
+    # ==========================================================
+    ecodna_type = get_ecodna_type(
+        electricity=electricity,
+        water=water,
+        travel=travel,
+        waste=waste,
+    )
+
+    # ==========================================================
+    # Roadmap
+    # ==========================================================
+    roadmap = generate_roadmap(
+        sustainability_score,
+        carbon_footprint,
+    )
+
+    # ==========================================================
+    # Missions
+    # ==========================================================
+    missions = generate_missions(
+        sustainability_score=sustainability_score,
+        electricity=electricity,
+        water=water,
+        travel=travel,
+        waste=waste,
+    )
+
+    # ==========================================================
+    # Achievements
+    # ==========================================================
     achievements = get_achievements(
-        sustainability_score=current_state["sustainability_score"],
+        sustainability_score=sustainability_score,
         completed_missions=len(missions),
     )
 
+    # ==========================================================
+    # Progress
+    # ==========================================================
     progress_history = generate_progress_history(
-        current_state["carbon_footprint"]
+        carbon_footprint
     )
-#    ai_coach_report = generate_ai_coach_report(
- #       ecodna_type=ecodna_type,
-  #       carbon_footprint=current_state["carbon_footprint"],
-#)   
 
-    ecodna_type = get_ecodna_type(
-        electricity=float(
-            current_state["user_profile"].get(
-                "monthly_electricity_usage",
-                0,
-            )
-        ),
-            water=float(
-                current_state["user_profile"].get(
-                    "monthly_water_consumption",
-                    0,
-                )
-            ),
-            travel=float(
-                current_state["user_profile"].get(
-                    "daily_travel_distance",
-                    0,
-                )
-            ),
-            waste=float(
-                current_state["user_profile"].get(
-                    "monthly_waste_generated",
-                    0,
-                )
-            ),
-        )
+    # ==========================================================
+    # AI Coach
+    # ==========================================================
     ai_coach_report = generate_ai_coach_report(
-    sustainability_score=current_state["sustainability_score"],
-    ecodna_type=ecodna_type,
-    carbon_footprint=current_state["carbon_footprint"],
-)
+        sustainability_score=sustainability_score,
+        ecodna_type=ecodna_type,
+        carbon_footprint=carbon_footprint,
+    )
+
+    # ==========================================================
+    # Report Data
+    # ==========================================================
     report_data = generate_report_data(
-      ecodna_type=ecodna_type,
-      sustainability_score=current_state["sustainability_score"],
-      carbon_footprint=current_state["carbon_footprint"],
-      roadmap=roadmap,
-      missions=missions,
-      achievements=achievements,
-)
-    journey_stage = get_journey_stage(
-            current_state["sustainability_score"]
-        )
+        ecodna_type=ecodna_type,
+        sustainability_score=sustainability_score,
+        carbon_footprint=carbon_footprint,
+        roadmap=roadmap,
+        missions=missions,
+        achievements=achievements,
+    )
 
-    roadmap = generate_roadmap(
-            current_state["sustainability_score"],
-            current_state["carbon_footprint"],
-        )
-    missions = generate_missions(
-            sustainability_score=current_state["sustainability_score"],
-            electricity=float(
-                current_state["user_profile"].get(
-                    "monthly_electricity_usage",
-                    300,
-                )
-            ),
-            water=float(
-                current_state["user_profile"].get(
-                    "monthly_water_consumption",
-                    5000,
-                )
-            ),
-            travel=float(
-                current_state["user_profile"].get(
-                    "daily_travel_distance",
-                    20,
-                )
-            ),
-            waste=float(
-                current_state["user_profile"].get(
-                    "monthly_waste_generated",
-                    10,
-                )
-            ),
-        )
-
-    achievements = get_achievements(
-            sustainability_score=current_state["sustainability_score"],
-            completed_missions=len(missions),
-        )
+    # ==========================================================
+    # Optimized Recommendations
+    # ==========================================================
     optimized_recommendations = get_optimized_recommendations(
-            electricity=float(
-                current_state["user_profile"].get(
-                    "monthly_electricity_usage",
-                    0,
-                )
-            ),
-            water=float(
-                current_state["user_profile"].get(
-                    "monthly_water_consumption",
-                    0,
-                )
-            ),
-            travel=float(
-                current_state["user_profile"].get(
-                    "daily_travel_distance",
-                    0,
-                )
-            ),
-            waste=float(
-                current_state["user_profile"].get(
-                    "monthly_waste_generated",
-                    0,
-                )
-            ),
-        )
+        electricity=electricity,
+        water=water,
+        travel=travel,
+        waste=waste,
+    )
 
+    # ==========================================================
+    # Forecast Data
+    # ==========================================================
     forecast_data = [
-            {
-                "month": 0,
-                "footprint": current_state["carbon_footprint"],
-            },
-            {
-                "month": 3,
-                "footprint": predictions["3_months"]["projected_footprint"],
-            },
-            {
-                "month": 6,
-                "footprint": predictions["6_months"]["projected_footprint"],
-            },
-            {
-                "month": 12,
-                "footprint": predictions["12_months"]["projected_footprint"],
-            },
-        ]
+        {
+            "month": 0,
+            "footprint": carbon_footprint,
+        },
+        {
+            "month": 3,
+            "footprint": predictions["3_months"]["projected_footprint"],
+        },
+        {
+            "month": 6,
+            "footprint": predictions["6_months"]["projected_footprint"],
+        },
+        {
+            "month": 12,
+            "footprint": predictions["12_months"]["projected_footprint"],
+        },
+    ]
 
-    forecast_df = pd.DataFrame(forecast_data)
+    forecast_df = pd.DataFrame(
+        forecast_data
+    )
 
     forecast_chart = px.line(
-            forecast_df,
-            x="month",
-            y="footprint",
-            markers=True,
-            title="Future Forecast",
-        )
-
+        forecast_df,
+        x="month",
+        y="footprint",
+        markers=True,
+        title="Future Forecast",
+    )
     st.subheader("📊 Premium Dashboard")
 
     col1, col2, col3, col4 = st.columns(4)

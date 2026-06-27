@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
-
+from utils.theme import apply_theme
 from rewards.reward_engine import (
     assign_badge,
     calculate_points,
@@ -15,7 +15,7 @@ st.set_page_config(
     page_icon="🏆",
     layout="wide",
 )
-
+apply_theme()
 st.markdown(
     """
     <style>
