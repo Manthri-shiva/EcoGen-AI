@@ -1,0 +1,464 @@
+Folder PATH listing for volume Windows
+Volume serial number is 00000064 E44B:A095
+C:.
+�   .env
+�   .env.example
+�   .gitignore
+�   check_db.py
+�   dashboard.py
+�   LICENSE
+�   main.py
+�   project_structure.txt
+�   README.md
+�   requirements.txt
+�   tatus
+�   test_auth.py
+�   test_env.py
+�   test_password.py
+�   test_report.pdf
+�   
++---.backup
+�       carbon_simulator.preproj.bak
+�       
++---app
+�   �   main.py
+�   �   
+�   +---assets
+�   �   +---icons
+�   �   +---images
+�   +---components
+�   �   �   cards.py
+�   �   �   charts.py
+�   �   �   forms.py
+�   �   �   sidebar.py
+�   �   �   __init__.py
+�   �   �   
+�   �   +---__pycache__
+�   �           cards.cpython-314.pyc
+�   �           charts.cpython-314.pyc
+�   �           forms.cpython-314.pyc
+�   �           sidebar.cpython-314.pyc
+�   �           __init__.cpython-314.pyc
+�   �           
+�   +---dashboard
+�   �   �   analytics.py
+�   �   �   community.py
+�   �   �   home.py
+�   �   �   rewards.py
+�   �   �   
+�   �   +---__pycache__
+�   �           analytics.cpython-314.pyc
+�   �           community.cpython-314.pyc
+�   �           home.cpython-314.pyc
+�   �           rewards.cpython-314.pyc
+�   �           
+�   +---pages
+�   �   �   ai_advisor.py
+�   �   �   carbon_calculator.py
+�   �   �   predictions.py
+�   �   �   profile.py
+�   �   �   rag_assistant.py
+�   �   �   reports.py
+�   �   �   simulator.py
+�   �   �   
+�   �   +---__pycache__
+�   �           ai_advisor.cpython-314.pyc
+�   �           carbon_calculator.cpython-314.pyc
+�   �           predictions.cpython-314.pyc
+�   �           profile.cpython-314.pyc
+�   �           rag_assistant.cpython-314.pyc
+�   �           reports.cpython-314.pyc
+�   �           simulator.cpython-314.pyc
+�   �           
+�   +---__pycache__
+�           main.cpython-314.pyc
+�           
++---application
+�   �   app.py
+�   �   __init__.py
+�   �   
+�   +---__pycache__
+�           app.cpython-313.pyc
+�           __init__.cpython-313.pyc
+�           
++---assessment
+�   �   analysis_engine.py
+�   �   assessment_form.py
+�   �   assessment_manager.py
+�   �   assessment_router.py
+�   �   __init__.py
+�   �   
+�   +---__pycache__
+�           analysis_engine.cpython-313.pyc
+�           analysis_engine.cpython-314.pyc
+�           assessment_form.cpython-313.pyc
+�           assessment_manager.cpython-313.pyc
+�           assessment_manager.cpython-314.pyc
+�           __init__.cpython-313.pyc
+�           __init__.cpython-314.pyc
+�           
++---auth
+�   �   auth_manager.py
+�   �   auth_router.py
+�   �   login.py
+�   �   password_utils.py
+�   �   register.py
+�   �   session.py
+�   �   __init__.py
+�   �   
+�   +---__pycache__
+�           auth_manager.cpython-313.pyc
+�           auth_manager.cpython-314.pyc
+�           auth_router.cpython-313.pyc
+�           auth_router.cpython-314.pyc
+�           login.cpython-313.pyc
+�           login.cpython-314.pyc
+�           password_utils.cpython-313.pyc
+�           password_utils.cpython-314.pyc
+�           register.cpython-313.pyc
+�           register.cpython-314.pyc
+�           session.cpython-313.pyc
+�           session.cpython-314.pyc
+�           __init__.cpython-313.pyc
+�           __init__.cpython-314.pyc
+�           
++---chatbot
+�   �   sustainability_advisor.py
+�   �   __init__.py
+�   �   
+�   +---__pycache__
+�           sustainability_advisor.cpython-313.pyc
+�           sustainability_advisor.cpython-314.pyc
+�           __init__.cpython-313.pyc
+�           __init__.cpython-314.pyc
+�           
++---community
+�   �   community_engine.py
+�   �   
+�   +---__pycache__
+�           community_engine.cpython-314.pyc
+�           
++---database
+�   �   __init__.py
+�   �   
+�   +---models
+�   �   �   carbon_data.py
+�   �   �   profile.py
+�   �   �   user.py
+�   �   �   __init__.py
+�   �   �   
+�   �   +---__pycache__
+�   �           carbon_data.cpython-314.pyc
+�   �           profile.cpython-314.pyc
+�   �           user.cpython-314.pyc
+�   �           __init__.cpython-314.pyc
+�   �           
+�   +---schema
+�   �       schema.sql
+�   �       
+�   +---sqlite
+�   �   �   ecogen.db
+�   �   �   __init__.py
+�   �   �   
+�   �   +---__pycache__
+�   �           db_manager.cpython-314.pyc
+�   �           __init__.cpython-314.pyc
+�   �           
+�   +---__pycache__
+�           __init__.cpython-314.pyc
+�           
++---datasets
+�   +---carbon
+�   �       sample_users.csv
+�   �       
+�   +---energy
+�   +---transportation
+�   +---waste
+�   +---water
++---deployment
+�       render.yaml
+�       streamlit_config.toml
+�       
++---docs
+�   +---api_docs
+�   +---architecture
+�   �       session_2.0_EcoGen_AI_Version
+�   �       session_2_requirements.md
+�   �       session_3_requirements.md
+�   �       session_4_requirements.md
+�   �       session_5_requirements.md
+�   �       session_6_requirements.md
+�   �       session_7_requirements.md
+�   �       session_8_requirements.md
+�   �       session_9_ecotwin_requirements.md
+�   �       
+�   +---screenshots
+�   +---wireframes
++---genai
+�   +---advisor
+�   �   �   sustainability_advisor.py
+�   �   �   
+�   �   +---__pycache__
+�   �           sustainability_advisor.cpython-314.pyc
+�   �           
+�   +---prompts
+�           advisor_prompt.txt
+�           planner_prompt.txt
+�           
++---ml
+�   �   achievement_engine.py
+�   �   ai_coach.py
+�   �   digital_twin.py
+�   �   ecodna.py
+�   �   impact_engine.py
+�   �   mission_engine.py
+�   �   progress_tracker.py
+�   �   recommendation_optimizer.py
+�   �   report_generator.py
+�   �   roadmap_generator.py
+�   �   scenario_engine.py
+�   �   sustainability_journey.py
+�   �   __init__.py
+�   �   
+�   +---carbon
+�   �   �   carbon_engine.py
+�   �   �   __init__.py
+�   �   �   
+�   �   +---__pycache__
+�   �           carbon_engine.cpython-314.pyc
+�   �           __init__.cpython-314.pyc
+�   �           
+�   +---explainability
+�   �   �   shap_engine.py
+�   �   �   
+�   �   +---__pycache__
+�   �           shap_engine.cpython-314.pyc
+�   �           
+�   +---location
+�   �   �   location_engine.py
+�   �   �   
+�   �   +---__pycache__
+�   �           location_engine.cpython-313.pyc
+�   �           location_engine.cpython-314.pyc
+�   �           
+�   +---prediction
+�   �   �   evaluate.py
+�   �   �   predict.py
+�   �   �   train.py
+�   �   �   
+�   �   +---__pycache__
+�   �           evaluate.cpython-314.pyc
+�   �           predict.cpython-313.pyc
+�   �           predict.cpython-314.pyc
+�   �           train.cpython-314.pyc
+�   �           
+�   +---profiling
+�   �   �   profiling_engine.py
+�   �   �   __init__.py
+�   �   �   
+�   �   +---__pycache__
+�   �           profiling_engine.cpython-314.pyc
+�   �           __init__.cpython-314.pyc
+�   �           
+�   +---recommendations
+�   �   �   recommendation_engine.py
+�   �   �   
+�   �   +---__pycache__
+�   �           recommendation_engine.cpython-314.pyc
+�   �           
+�   +---scoring
+�   �   �   scoring_engine.py
+�   �   �   __init__.py
+�   �   �   
+�   �   +---__pycache__
+�   �           scoring_engine.cpython-314.pyc
+�   �           __init__.cpython-314.pyc
+�   �           
+�   +---__pycache__
+�           achievement_engine.cpython-313.pyc
+�           achievement_engine.cpython-314.pyc
+�           ai_coach.cpython-313.pyc
+�           ai_coach.cpython-314.pyc
+�           digital_twin.cpython-313.pyc
+�           digital_twin.cpython-314.pyc
+�           ecodna.cpython-313.pyc
+�           ecodna.cpython-314.pyc
+�           impact_engine.cpython-313.pyc
+�           impact_engine.cpython-314.pyc
+�           mission_engine.cpython-313.pyc
+�           mission_engine.cpython-314.pyc
+�           progress_tracker.cpython-313.pyc
+�           progress_tracker.cpython-314.pyc
+�           recommendation_optimizer.cpython-313.pyc
+�           recommendation_optimizer.cpython-314.pyc
+�           report_generator.cpython-313.pyc
+�           report_generator.cpython-314.pyc
+�           roadmap_generator.cpython-313.pyc
+�           roadmap_generator.cpython-314.pyc
+�           scenario_engine.cpython-313.pyc
+�           scenario_engine.cpython-314.pyc
+�           sustainability_journey.cpython-313.pyc
+�           sustainability_journey.cpython-314.pyc
+�           __init__.cpython-313.pyc
+�           __init__.cpython-314.pyc
+�           
++---models
+�       carbon_model.pkl
+�       
++---pages
+�   �   ai_advisor.py
+�   �   carbon_simulator.py
+�   �   carbon_simulator.py.bak
+�   �   community_analytics.py
+�   �   ecotwin.py
+�   �   green_planner.py
+�   �   green_products.py
+�   �   report_generator.py
+�   �   rewards.py
+�   �   
+�   +---__pycache__
+�           ai_advisor.cpython-314.pyc
+�           carbon_simulator.cpython-314.pyc
+�           community_analytics.cpython-314.pyc
+�           ecotwin.cpython-314.pyc
+�           green_planner.cpython-314.pyc
+�           green_products.cpython-314.pyc
+�           report_generator.cpython-314.pyc
+�           rewards.cpython-314.pyc
+�           
++---planner
+�   �   action_planner.py
+�   �   green_action_planner.py
+�   �   __init__.py
+�   �   
+�   +---__pycache__
+�           action_planner.cpython-313.pyc
+�           action_planner.cpython-314.pyc
+�           green_action_planner.cpython-314.pyc
+�           __init__.cpython-313.pyc
+�           __init__.cpython-314.pyc
+�           
++---products
+�   �   green_product_engine.py
+�   �   
+�   +---__pycache__
+�           green_product_engine.cpython-313.pyc
+�           green_product_engine.cpython-314.pyc
+�           
++---profile
+�   �   profile_form.py
+�   �   profile_manager.py
+�   �   profile_router.py
+�   �   __init__.py
+�   �   
+�   +---__pycache__
+�           profile_form.cpython-313.pyc
+�           profile_form.cpython-314.pyc
+�           profile_manager.cpython-313.pyc
+�           profile_manager.cpython-314.pyc
+�           profile_router.cpython-313.pyc
+�           profile_router.cpython-314.pyc
+�           __init__.cpython-313.pyc
+�           
++---rag
+�   +---chatbot
+�   �   �   rag_assistant.py
+�   �   �   
+�   �   +---__pycache__
+�   �           rag_assistant.cpython-314.pyc
+�   �           
+�   +---documents
+�   �   +---climate_reports
+�   �   �       carbon_reduction.txt
+�   �   �       
+�   �   +---policies
+�   �   +---renewable_energy
+�   �   �       solar_energy.txt
+�   �   �       
+�   �   +---sdg
+�   �           sdg13.txt
+�   �           
+�   +---ingestion
+�   �   �   ingest.py
+�   �   �   
+�   �   +---__pycache__
+�   �           ingest.cpython-314.pyc
+�   �           
+�   +---vectorstore
+�       +---faiss_index
+�               chunks.pkl
+�               index.faiss
+�               
++---reports
+�   �   community_analytics.py
+�   �   excel_generator.py
+�   �   pdf_generator.py
+�   �   report_generator.py
+�   �   
+�   +---__pycache__
+�           community_analytics.cpython-313.pyc
+�           community_analytics.cpython-314.pyc
+�           excel_generator.cpython-314.pyc
+�           pdf_generator.cpython-314.pyc
+�           report_generator.cpython-313.pyc
+�           report_generator.cpython-314.pyc
+�           
++---rewards
+�   �   reward_engine.py
+�   �   
+�   +---__pycache__
+�           reward_engine.cpython-313.pyc
+�           reward_engine.cpython-314.pyc
+�           
++---simulator
+�   �   carbon_simulator.py
+�   �   
+�   +---__pycache__
+�           carbon_simulator.cpython-313.pyc
+�           carbon_simulator.cpython-314.pyc
+�           
++---tests
+�   �   test_advisor.py
+�   �   test_carbon.py
+�   �   test_ecotwin.py
+�   �   test_explainability.py
+�   �   test_gemini.py
+�   �   test_location.py
+�   �   test_prediction.py
+�   �   test_rag.py
+�   �   test_recommendation.py
+�   �   test_scoring.py
+�   �   
+�   +---__pycache__
+�           test_advisor.cpython-314.pyc
+�           test_carbon.cpython-314.pyc
+�           test_database.cpython-314.pyc
+�           test_ecotwin.cpython-314.pyc
+�           test_explainability.cpython-314.pyc
+�           test_gemini.cpython-314.pyc
+�           test_location.cpython-314.pyc
+�           test_prediction.cpython-314.pyc
+�           test_rag.cpython-314.pyc
+�           test_recommendation.cpython-314.pyc
+�           test_scoring.cpython-314.pyc
+�           
++---utils
+�   �   pdf_generator.py
+�   �   theme.py
+�   �   ui_components.py
+�   �   __init__.py
+�   �   
+�   +---__pycache__
+�           pdf_generator.cpython-313.pyc
+�           pdf_generator.cpython-314.pyc
+�           theme.cpython-313.pyc
+�           theme.cpython-314.pyc
+�           ui_components.cpython-313.pyc
+�           ui_components.cpython-314.pyc
+�           __init__.cpython-313.pyc
+�           __init__.cpython-314.pyc
+�           
++---__pycache__
+        dashboard.cpython-314.pyc
+        test_env.cpython-314.pyc
+        
