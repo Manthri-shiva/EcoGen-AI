@@ -1,0 +1,712 @@
+# EcoGen AI Version 2.0 – System Architecture & Implementation Roadmap
+
+## Project Vision
+
+EcoGen AI is an AI-powered sustainability intelligence platform designed to help individuals understand, monitor, predict, and improve their environmental impact. The platform integrates Artificial Intelligence, Machine Learning, Digital Twin Technology, Carbon Analytics, Recommendation Systems, and Sustainability Intelligence into a single personalized ecosystem.
+
+Unlike traditional carbon calculators that provide only static results, EcoGen AI continuously analyzes user sustainability data, generates personalized recommendations, tracks long-term progress, predicts future environmental impact, and assists users in achieving sustainable living goals.
+
+The next generation of EcoGen AI transforms the existing application into a complete AI-powered sustainability platform with user authentication, historical data management, intelligent dashboards, and personalized AI services.
+
+---
+
+# Phase 1 – Authentication & User Management
+
+## Objective
+
+Develop a secure authentication system that enables users to create personal accounts, securely access the platform, and maintain persistent sustainability records.
+
+---
+
+## Purpose
+
+The authentication module acts as the foundation of the entire EcoGen AI platform by uniquely identifying every user and enabling personalized sustainability analysis.
+
+---
+
+## Functional Components
+
+### User Registration
+
+Users can create a new account by providing:
+
+* Full Name
+* Email Address
+* Password
+* Confirm Password
+
+The system validates all information before creating the account.
+
+---
+
+### User Login
+
+Registered users authenticate using:
+
+* Email Address
+* Password
+
+After successful authentication, a secure session is created.
+
+---
+
+### Session Management
+
+After login, the application stores:
+
+* User ID
+* User Name
+* Login Timestamp
+
+using Streamlit session management.
+
+Example:
+
+```
+st.session_state["user_id"]
+st.session_state["user_name"]
+```
+
+Every page in EcoGen AI uses this information to retrieve personalized data.
+
+---
+
+## Database Design
+
+Table: users
+
+Fields
+
+* user_id
+* full_name
+* email
+* password_hash
+* created_at
+* last_login
+
+Passwords are never stored as plain text.
+
+Industry-standard password hashing is used for security.
+
+---
+
+## Integration
+
+Authentication is connected to:
+
+* Dashboard
+* EcoTwin AI
+* Reports
+* Rewards
+* Green Planner
+* AI Coach
+* Community Analytics
+
+---
+
+## Outputs
+
+* Registered User
+* Authenticated Session
+* User Identity
+* Secure Login State
+
+---
+
+## Success Criteria
+
+* Users can register securely.
+* Users can log in successfully.
+* Every page recognizes the authenticated user.
+* User sessions remain active until logout.
+
+---
+
+# Phase 2 – User Profile Management
+
+## Objective
+
+Create a centralized user profile that stores all personal sustainability information.
+
+---
+
+## Purpose
+
+The user should complete profile information only once instead of entering it repeatedly on different pages.
+
+---
+
+## Profile Information
+
+The profile contains:
+
+* Full Name
+* Age
+* Gender
+* City
+* Country
+* Occupation
+* Household Size
+* Home Type
+* Vehicle Type
+* Income Range
+
+---
+
+## Features
+
+* Create Profile
+* Edit Profile
+* Update Information
+* Save Automatically
+* Load Automatically After Login
+
+---
+
+## Database
+
+Table: profiles
+
+Fields
+
+* profile_id
+* user_id
+* age
+* city
+* occupation
+* household_size
+* vehicle
+* home_type
+* income_range
+
+---
+
+## Outputs
+
+The profile becomes the default data source for:
+
+* EcoTwin AI
+* Carbon Calculator
+* Recommendation Engine
+* Dashboard
+
+---
+
+## Success Criteria
+
+Users complete their profile once and all EcoGen AI modules automatically use the stored information.
+
+---
+
+# Phase 3 – Unified Sustainability Data Pipeline
+
+## Objective
+
+Collect sustainability-related inputs once and automatically generate all sustainability intelligence outputs.
+
+---
+
+## Purpose
+
+The platform eliminates repeated data entry across multiple modules.
+
+---
+
+## Sustainability Inputs
+
+Monthly Electricity Consumption (kWh)
+
+Monthly Water Consumption (Liters)
+
+Daily Travel Distance (km)
+
+Monthly Waste Generated (kg)
+
+Renewable Energy Usage (%)
+
+Public Transport Usage (%)
+
+Recycling Percentage (%)
+
+Optional Lifestyle Notes
+
+---
+
+## Processing Pipeline
+
+User Inputs
+
+↓
+
+Input Validation
+
+↓
+
+Data Normalization
+
+↓
+
+Carbon Calculation
+
+↓
+
+Carbon Prediction
+
+↓
+
+AI Sustainability Analysis
+
+---
+
+## Outputs
+
+The pipeline automatically supplies every AI engine without requiring additional user input.
+
+---
+
+## Success Criteria
+
+Users enter sustainability information only once for each analysis cycle.
+
+---
+
+# Phase 4 – AI Processing Pipeline
+
+## Objective
+
+Create an intelligent processing engine that transforms sustainability inputs into comprehensive environmental insights.
+
+---
+
+## Processing Flow
+
+User Inputs
+
+↓
+
+Carbon Calculator
+
+↓
+
+Carbon Prediction Model
+
+↓
+
+Sustainability Score Calculation
+
+↓
+
+EcoDNA Classification
+
+↓
+
+Journey Stage Identification
+
+↓
+
+Recommendation Engine
+
+↓
+
+30-Day Roadmap Generation
+
+↓
+
+Mission Generation
+
+↓
+
+Achievement Detection
+
+↓
+
+AI Sustainability Coach
+
+↓
+
+Scenario Simulator
+
+↓
+
+Future Projection
+
+↓
+
+Report Generator
+
+↓
+
+Dashboard Update
+
+---
+
+## Outputs
+
+Automatically generated:
+
+* Carbon Footprint
+* Sustainability Score
+* EcoDNA Type
+* Journey Stage
+* AI Recommendations
+* Weekly Missions
+* Achievements
+* Sustainability Roadmap
+* AI Coach Feedback
+* Scenario Simulation
+* Future Projection
+* Reports
+
+---
+
+## Success Criteria
+
+One click performs the complete sustainability analysis.
+
+---
+
+# Phase 5 – Historical Database
+
+## Objective
+
+Store every sustainability analysis as a permanent historical record.
+
+---
+
+## Database Table
+
+analysis_history
+
+Fields
+
+* analysis_id
+* user_id
+* timestamp
+* electricity_usage
+* water_usage
+* travel_distance
+* waste_generated
+* carbon_footprint
+* sustainability_score
+* ecodna
+* journey_stage
+
+---
+
+## Purpose
+
+Historical records enable:
+
+* Trend Analysis
+* Monthly Comparisons
+* AI Learning
+* Personalized Recommendations
+
+---
+
+## Outputs
+
+Every sustainability analysis becomes a permanent record accessible throughout the platform.
+
+---
+
+# Phase 6 – Personalized Dashboard
+
+## Objective
+
+Create a centralized dashboard displaying personalized sustainability intelligence immediately after login.
+
+---
+
+## Dashboard Components
+
+Welcome Message
+
+Current Sustainability Score
+
+Current Carbon Footprint
+
+EcoDNA Classification
+
+Journey Stage
+
+Active Mission
+
+AI Coach Summary
+
+Recent Recommendations
+
+Latest Report
+
+Reward Points
+
+Progress Overview
+
+---
+
+## Features
+
+* Personalized Greeting
+* Real-Time Sustainability Metrics
+* Quick Access to Modules
+* Live Progress Indicators
+* AI Summary Cards
+
+---
+
+## Success Criteria
+
+Users receive a complete overview of their sustainability status without completing additional forms.
+
+---
+
+# Phase 7 – Historical Tracking
+
+## Objective
+
+Enable users to monitor sustainability improvement over time.
+
+---
+
+## Tracking Components
+
+Monthly Sustainability Score
+
+Carbon Footprint Trend
+
+Electricity Consumption Trend
+
+Water Consumption Trend
+
+Travel Emissions Trend
+
+Waste Generation Trend
+
+Reward Progress
+
+Mission Completion
+
+---
+
+## Visualization
+
+Interactive charts display:
+
+* Monthly Score Growth
+* Carbon Reduction
+* Energy Consumption
+* Water Conservation
+* Achievement Timeline
+
+---
+
+## Success Criteria
+
+Users clearly visualize long-term sustainability improvements.
+
+---
+
+# Phase 8 – AI Coach Evolution
+
+## Objective
+
+Transform the AI Coach from a static recommendation engine into an adaptive sustainability mentor.
+
+---
+
+## AI Processing
+
+The AI compares:
+
+Current Month
+
+↓
+
+Previous Month
+
+↓
+
+Historical Trends
+
+↓
+
+Personal Goals
+
+↓
+
+Future Targets
+
+---
+
+## AI Insights
+
+Examples:
+
+* Electricity reduced by 12%
+* Water usage reduced by 8%
+* Carbon emissions reduced by 18%
+* Excellent sustainability progress
+* Suggested focus areas for next month
+
+---
+
+## Outputs
+
+Personalized coaching based on historical user performance.
+
+---
+
+# Phase 9 – Intelligent Report Management
+
+## Objective
+
+Maintain a complete history of sustainability reports.
+
+---
+
+## Report Repository
+
+Each report includes:
+
+* Monthly Comparison
+* Carbon Footprint Analysis
+* Sustainability Score
+* EcoDNA
+* AI Insights
+* Carbon Trend Graphs
+* Recommendations
+* Roadmap
+* Mission Summary
+* Achievement Summary
+
+---
+
+## Features
+
+Users can:
+
+* View Previous Reports
+* Download PDF Reports
+* Compare Historical Reports
+* Generate New Reports
+
+---
+
+## Success Criteria
+
+Reports become a permanent sustainability record instead of temporary outputs.
+
+---
+
+# Phase 10 – Persistent Rewards System
+
+## Objective
+
+Create a long-term gamification system that motivates sustainable behavior.
+
+---
+
+## Reward Components
+
+Reward Points
+
+Current Level
+
+Eco Rank
+
+Achievement Badges
+
+Mission Completion
+
+Current Streak
+
+Monthly Progress
+
+Leaderboard Position
+
+---
+
+## Progress Tracking
+
+Users continuously accumulate:
+
+* Points
+* Levels
+* Achievements
+* Badges
+* Streaks
+
+---
+
+## Outputs
+
+Persistent sustainability rewards encourage long-term environmental engagement.
+
+---
+
+# Final System Workflow
+
+Landing Page
+
+↓
+
+User Registration
+
+↓
+
+Secure Login
+
+↓
+
+Profile Creation
+
+↓
+
+Monthly Sustainability Data Entry
+
+↓
+
+AI Processing Pipeline
+
+↓
+
+Historical Database Storage
+
+↓
+
+Personalized Dashboard
+
+↓
+
+EcoTwin AI
+
+↓
+
+AI Coach
+
+↓
+
+Reports
+
+↓
+
+Rewards
+
+↓
+
+Continuous Sustainability Improvement
+
+---
+
+# Expected System Outcomes
+
+* Secure user authentication
+* Personalized sustainability intelligence
+* Automated AI analysis
+* Persistent environmental history
+* Intelligent recommendations
+* Historical trend visualization
+* AI-driven sustainability coaching
+* Professional reporting
+* Long-term rewards and engagement
+* Unified AI-powered sustainability platform

@@ -1,7 +1,7 @@
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-
+from utils.theme import apply_theme
 from reports.community_analytics import (
     aggregate_user_statistics,
     calculate_community_impact,
@@ -16,7 +16,7 @@ st.set_page_config(
     page_icon="🌍",
     layout="wide",
 )
-
+apply_theme()
 st.markdown(
     """
     <style>
