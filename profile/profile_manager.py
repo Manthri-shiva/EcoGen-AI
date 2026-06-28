@@ -94,25 +94,58 @@ def save_profile(
     conn.commit()
     conn.close()
 
-
 def get_profile(user_id: int):
-    """Return profile data."""
+    """
+    Return profile as a dictionary.
+    """
 
     conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM profiles WHERE user_id=?",
+        """
+        SELECT
+            profile_id,
+            user_id,
+            age,
+            gender,
+            occupation,
+            city,
+            country,
+            household_size,
+            home_type,
+            vehicle_type,
+            income_range,
+            created_at,
+            updated_at
+        FROM profiles
+        WHERE user_id=?
+        """,
         (user_id,),
     )
 
-    profile = cursor.fetchone()
+    row = cursor.fetchone()
 
     conn.close()
 
-    return profile
+    if row is None:
+        return None
 
-
+    return {
+        "profile_id": row[0],
+        "user_id": row[1],
+        "age": row[2],
+        "gender": row[3],
+        "occupation": row[4],
+        "city": row[5],
+        "country": row[6],
+        "household_size": row[7],
+        "home_type": row[8],
+        "vehicle_type": row[9],
+        "income_range": row[10],
+        "created_at": row[11],
+        "updated_at": row[12],
+    }
 def update_profile(
     user_id: int,
     age: int,

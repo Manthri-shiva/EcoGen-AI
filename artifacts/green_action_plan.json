@@ -1,0 +1,61 @@
+{
+  "summary": {
+    "total_expected_reduction": "10-15%",
+    "total_expected_savings": "$30-$60",
+    "main_focus": "Build sustainable daily habits"
+  },
+  "weeks": [
+    {
+      "week": 1,
+      "title": "Week 1 - Energy Awareness",
+      "tasks": [
+        "Replace unnecessary lights with LEDs",
+        "Switch off appliances when not in use",
+        "Track daily electricity consumption"
+      ],
+      "expected_carbon_reduction": "3%",
+      "expected_cost_savings": "$8",
+      "difficulty_level": "Easy",
+      "priority": "High"
+    },
+    {
+      "week": 2,
+      "title": "Week 2 - Water Conservation",
+      "tasks": [
+        "Reduce shower duration",
+        "Fix leaking taps",
+        "Reuse water where possible"
+      ],
+      "expected_carbon_reduction": "2%",
+      "expected_cost_savings": "$7",
+      "difficulty_level": "Easy",
+      "priority": "Medium"
+    },
+    {
+      "week": 3,
+      "title": "Week 3 - Sustainable Transport",
+      "tasks": [
+        "Walk or cycle twice this week",
+        "Use public transport",
+        "Avoid unnecessary car trips"
+      ],
+      "expected_carbon_reduction": "4%",
+      "expected_cost_savings": "$15",
+      "difficulty_level": "Medium",
+      "priority": "High"
+    },
+    {
+      "week": 4,
+      "title": "Week 4 - Waste Reduction",
+      "tasks": [
+        "Recycle household waste",
+        "Avoid single-use plastics",
+        "Start composting organic waste"
+      ],
+      "expected_carbon_reduction": "5%",
+      "expected_cost_savings": "$12",
+      "difficulty_level": "Easy",
+      "priority": "Medium"
+    }
+  ]
+}

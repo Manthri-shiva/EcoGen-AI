@@ -8,7 +8,7 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.append(str(ROOT_DIR))
 
 import streamlit as st
-import streamlit as st
+
 from utils.theme import apply_theme
 
 st.set_page_config(
@@ -517,10 +517,13 @@ if twin_report:
     # ==========================================================
     ai_coach_report = generate_ai_coach_report(
         sustainability_score=sustainability_score,
-        ecodna_type=ecodna_type,
+        eco_dna=ecodna_type,
         carbon_footprint=carbon_footprint,
+        electricity_kwh=electricity,
+        water_liters=water,
+        travel_km=travel,
+        waste_kg=waste,
     )
-
     # ==========================================================
     # Report Data
     # ==========================================================
@@ -677,20 +680,47 @@ Reward Points: {mission['points']}
         )
     st.subheader("🤖 AI Sustainability Coach")
 
+    # -------------------------
+    # Strengths
+    # -------------------------
     st.success("Strengths")
 
-    for item in ai_coach_report["strengths"]:
-        st.write(f"✅ {item}")
+    if ai_coach_report["strengths"]:
+        for item in ai_coach_report["strengths"]:
+            st.write(f"✅ {item}")
+    else:
+        st.write("No major strengths identified yet.")
 
+    # -------------------------
+    # Improvement Areas
+    # -------------------------
     st.warning("Improvement Areas")
 
-    for item in ai_coach_report["weaknesses"]:
-        st.write(f"⚠️ {item}")
+    if ai_coach_report["improvements"]:
+        for item in ai_coach_report["improvements"]:
+            st.write(f"⚠️ {item}")
+    else:
+        st.write("No major improvement areas identified.")
 
+    # -------------------------
+    # Personalized Recommendations
+    # -------------------------
+    if ai_coach_report["recommendations"]:
+        st.success("Recommended Actions")
+
+        for recommendation in ai_coach_report["recommendations"]:
+            st.write(f"💡 {recommendation}")
+
+    # -------------------------
+    # Best Action
+    # -------------------------
     st.info(
         f"Best Action: {ai_coach_report['best_action']}"
     )
 
+    # -------------------------
+    # Estimated Improvement
+    # -------------------------
     st.metric(
         "Estimated Improvement",
         ai_coach_report["estimated_improvement"],

@@ -231,13 +231,97 @@ def _normalize_plan(raw_response: str) -> Dict[str, Any]:
 
 def generate_action_plan(inputs: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Generate a personalized 30-day green action plan using Gemini.
-    Returns a normalized plan dictionary ready for display.
-    """
-    prompt = build_action_plan_prompt(inputs)
-    raw_response = _call_gemini(prompt)
-    return _normalize_plan(raw_response)
+    Generate a personalized 30-day green action plan.
 
+    If Gemini is unavailable, automatically return
+    a high-quality local fallback plan.
+    """
+
+    prompt = build_action_plan_prompt(inputs)
+
+    def _fallback_plan():
+        return {
+            "summary": {
+                "total_expected_reduction": "10-15%",
+                "total_expected_savings": "$30-$60",
+                "main_focus": "Build sustainable daily habits",
+            },
+            "weeks": [
+                {
+                    "week": 1,
+                    "title": "Week 1 - Energy Awareness",
+                    "tasks": [
+                        "Replace unnecessary lights with LEDs",
+                        "Switch off appliances when not in use",
+                        "Track daily electricity consumption",
+                    ],
+                    "expected_carbon_reduction": "3%",
+                    "expected_cost_savings": "$8",
+                    "difficulty_level": "Easy",
+                    "priority": "High",
+                },
+                {
+                    "week": 2,
+                    "title": "Week 2 - Water Conservation",
+                    "tasks": [
+                        "Reduce shower duration",
+                        "Fix leaking taps",
+                        "Reuse water where possible",
+                    ],
+                    "expected_carbon_reduction": "2%",
+                    "expected_cost_savings": "$7",
+                    "difficulty_level": "Easy",
+                    "priority": "Medium",
+                },
+                {
+                    "week": 3,
+                    "title": "Week 3 - Sustainable Transport",
+                    "tasks": [
+                        "Walk or cycle twice this week",
+                        "Use public transport",
+                        "Avoid unnecessary car trips",
+                    ],
+                    "expected_carbon_reduction": "4%",
+                    "expected_cost_savings": "$15",
+                    "difficulty_level": "Medium",
+                    "priority": "High",
+                },
+                {
+                    "week": 4,
+                    "title": "Week 4 - Waste Reduction",
+                    "tasks": [
+                        "Recycle household waste",
+                        "Avoid single-use plastics",
+                        "Start composting organic waste",
+                    ],
+                    "expected_carbon_reduction": "5%",
+                    "expected_cost_savings": "$12",
+                    "difficulty_level": "Easy",
+                    "priority": "Medium",
+                },
+            ],
+        }
+
+    try:
+
+        raw_response = _call_gemini(prompt)
+
+        plan = _normalize_plan(raw_response)
+
+        if (
+            not plan
+            or "weeks" not in plan
+            or len(plan["weeks"]) == 0
+        ):
+            return _fallback_plan()
+
+        return plan
+
+    except Exception as exc:
+
+        print(f"Planner AI Error: {exc}")
+
+        return _fallback_plan()
 
 def calculate_progress(
     plan: Dict[str, Any],
